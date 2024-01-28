@@ -37,7 +37,7 @@ def login():
 
 
 @api.route("/private", methods=["GET"])
-@jwt_required() # Decorador
+@jwt_required() # Decorador no deja ver
 def protected():
     # Access the identity of the current user with get_jwt_identity
     # En La documentación pone que tipo de autorización debemos usar, token en este caso
