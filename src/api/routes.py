@@ -49,7 +49,7 @@ def protected():
 def perfil():
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
-    if current_user[2]:
+    if current_user:
         print("El valor es verdadero")
     response_body = {}
     response_body["results"] = current_user

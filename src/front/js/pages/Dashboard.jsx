@@ -14,7 +14,7 @@ export const Dashboard = () => {
 
 
     return (
-        !store.isLoggedIn ? <Navigate to="/login" /> :
+        store.isLoggedIn ? <Navigate to="/perfil" /> :
             <div className="card-body py-5 px-md-5">
                 <div>
                     <button onClick={handleClick} type="button" className="btn btn-primary btn-block mb-4">Logout</button>
