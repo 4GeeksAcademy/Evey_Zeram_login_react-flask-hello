@@ -1,50 +1,54 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			isLoggedIn: false,
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			demo: [{title: "FIRST",
+							background: "white",
+							initial: "white"},
+			 			 {title: "SECOND",
+					    background: "white",
+					    initial: "white"}]
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			login: (token) => {
+				setStore({isLoggedIn: true});
+				localStorage.setItem("token", token);
 			},
-
+			logout: () => {
+				setStore({isLoggedIn: false});
+				localStorage.removeItem("token");
+			},
+			isLogged: () => {
+				if (localStorage.getItem("token")) {
+					setStore({isLoggedIn: true});
+				} else {
+					setStore({isLoggedIn: false});
+				}
+			},
+			// Use getActions to call a function within a fuction
+			exampleFunction: () => { getActions().changeColor(0, "green"); },
 			getMessage: async () => {
-				try{
+				try {
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
+					const response = await fetch(process.env.BACKEND_URL + "/api/hello")
+					const data = await response.json()
 					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
+					// Don't forget to return something, that is how the async resolves
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
 			changeColor: (index, color) => {
-				//get the store
+				// Get the store
 				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
+				// We have to loop the entire demo array to look for the respective index and change its color
+				const demo = store.demo.map((element, i) => {
+					if (i === index) element.background = color;
 					return elm;
 				});
-
-				//reset the global store
+				// Reset the global store
 				setStore({ demo: demo });
 			}
 		}
